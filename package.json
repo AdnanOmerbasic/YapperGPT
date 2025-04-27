@@ -6,7 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "types": "tsc --noEmit",
+    "lint:fix": "next lint --fix",
+    "dev:turbo": "next dev --turbopack",
+    "build:turbo": "next build --turbopack"
   },
   "dependencies": {
     "react": "^19.0.0",
