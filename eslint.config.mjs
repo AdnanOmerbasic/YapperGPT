@@ -45,7 +45,7 @@ const eslintConfig = [
       ],
       'import/no-duplicates': 'error',
       'no-console': 'warn',
-      'next/no-img-element': 'off',
+      '@next/next/no-img-element': 'off',
     },
   },
 ];
