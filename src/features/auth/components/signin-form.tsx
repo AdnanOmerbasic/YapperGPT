@@ -13,8 +13,6 @@ import { signInAction } from '../actions/sign-in';
 export const SignInForm = () => {
   const { result, execute } = useStateAction(signInAction, {});
 
-  console.log('result', result);
-
   return (
     <div className="container mx-auto flex items-center justify-center pt-24">
       <Card className="w-full max-w-sm">
