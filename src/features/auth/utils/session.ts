@@ -20,7 +20,7 @@ export async function createSession(token: string, userId: number) {
   return session;
 }
 
-export async function validateSession(token: string, rememberMe: boolean) {
+export async function validateSession(token: string, rememberMe?: boolean) {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const result = await db
     .select({ user: userTable, session: sessionTable })
@@ -57,8 +57,7 @@ export async function validateSession(token: string, rememberMe: boolean) {
   return { session, user };
 }
 
-export async function invalidateSession(token: string) {
-  const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+export async function invalidateSession(sessionId: string) {
   await db.delete(sessionTable).where(eq(sessionTable.id, sessionId));
 }
 

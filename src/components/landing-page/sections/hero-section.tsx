@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import { signUpPage } from '@/lib/paths';
+import { signUpPath } from '@/utils/paths';
 import { Button } from '../../ui/button';
 
 export const HeroSection = () => {
   return (
     <section className="h-full w-full px-4 py-28 md:px-10">
-      <div className="container mx-auto flex flex-1 flex-col items-center justify-center gap-12 pt-12 lg:flex-row lg:space-x-10">
+      <div className="container mx-auto flex flex-1 flex-col items-center justify-center gap-12 lg:flex-row lg:space-x-10">
         <div className="max-w-lg">
           <h1 className="text-5xl leading-tight font-bold">YapperGPT</h1>
           <p className="text-muted-foreground mt-6 text-xl">
@@ -13,7 +13,7 @@ export const HeroSection = () => {
             creative content, and helpful solutions with our advanced language
             model.
           </p>
-          <Link href={signUpPage()}>
+          <Link href={signUpPath()}>
             <Button size="lg" className="mt-6 px-8 py-4 text-lg">
               Get Started
             </Button>
