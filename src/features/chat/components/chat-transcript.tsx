@@ -1,9 +1,10 @@
 'use client';
+
 import { useChat } from '@ai-sdk/react';
+import { useEffect, useRef } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
-//TODO: FIX Design
 type ChatTranscriptProps = {
   userAvatar: React.ReactElement;
   aiAvatar: React.ReactElement;
@@ -17,37 +18,49 @@ export default function ChatTranscript({
     maxSteps: 5,
   });
 
+  const endRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
   return (
-    <div className="stretch mx-auto flex w-full max-w-md flex-col py-24">
-      {messages.map(message => (
-        <div key={message.id} className="whitespace-pre-wrap">
-          {message.role === 'user' ? userAvatar : aiAvatar}
-          {message.parts.map((part, i) => {
-            switch (part.type) {
-              case 'text':
+    <div className="flex min-h-screen w-full flex-col items-center">
+      <div className="mx-auto w-full max-w-2xl px-4 pt-12">
+        {messages.map(message => (
+          <div key={message.id} className="mb-6 flex flex-col gap-2">
+            <div className="text-muted-foreground text-sm">
+              {message.role === 'user' ? userAvatar : aiAvatar}
+            </div>
+            {message.parts.map((part, i) => {
+              if (part.type === 'text') {
                 return (
                   <div
+                    key={`${message.id}-${i}`}
                     className={cn(
-                      message.role === 'user' &&
-                        'flex items-center justify-end pt-1 pr-1.5 pb-4',
-                      message.role === 'assistant' && 'pt-1 pb-4 pl-1.5'
-                    )}
-                    key={`${message.id}-${i}`}>
+                      'rounded-lg px-4 py-2 text-sm break-words whitespace-pre-wrap',
+                      message.role === 'user'
+                        ? 'bg-primary text-primary-foreground ml-auto self-end'
+                        : 'bg-secondary dark:bg-muted dark:text-muted-foreground mr-auto self-start text-black'
+                    )}>
                     {part.text}
                   </div>
                 );
-            }
-          })}
-        </div>
-      ))}
+              }
+            })}
+          </div>
+        ))}
+      </div>
+
+      <div ref={endRef} className="flex items-center justify-center pt-4" />
 
       <form
         onSubmit={handleSubmit}
-        className="flex items-center justify-center">
+        className="bg-background sticky bottom-0 flex w-full max-w-2xl items-center justify-center pt-4 pb-12">
         <Textarea
-          className="fixed bottom-0 mb-8 w-full max-w-2xl rounded-lg border border-zinc-300 p-7 shadow-xl dark:border-zinc-800 dark:bg-zinc-900"
-          value={input}
+          className="border-input bg-background fixed bottom-4 w-full max-w-2xl rounded-lg border p-8 text-sm shadow-sm"
           placeholder="Ask me anything..."
+          value={input}
           onChange={handleInputChange}
           onKeyDown={e => {
             if (e.key === 'Enter' && !e.shiftKey) {
