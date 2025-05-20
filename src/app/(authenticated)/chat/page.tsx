@@ -1,9 +1,12 @@
 import { getAuth } from '@/features/auth/utils/getAuth';
 import ChatTranscript from '@/features/chat/components/chat-transcript';
-import { extractEmailTag } from '@/features/chat/utils/extractEmailTag';
+import { EmailTagAvatar } from '@/features/chat/components/email-tag-avatar';
 
 export default async function Chat() {
   const { user } = await getAuth();
 
-  return <ChatTranscript email={extractEmailTag(user?.email ?? 'User')} />;
+  const userAvatar = <EmailTagAvatar email={user!.email} role="user" />;
+  const aiAvatar = <EmailTagAvatar role="ai" />;
+
+  return <ChatTranscript userAvatar={userAvatar} aiAvatar={aiAvatar} />;
 }

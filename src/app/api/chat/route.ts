@@ -1,6 +1,7 @@
 import { openai } from '@ai-sdk/openai';
 import { streamText, UIMessage } from 'ai';
 
+//TODO: ADD Authentication layer
 export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json();
 
