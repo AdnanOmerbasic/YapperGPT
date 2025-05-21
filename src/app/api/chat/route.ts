@@ -13,7 +13,7 @@ type WebSearchResult = {
 
 const MODEL = openai('gpt-4o');
 
-export const webSearch = tool({
+const webSearch = tool({
   description: 'Search the web for up to date information.',
   parameters: z.object({ query: z.string().describe('Search query') }),
   execute: async ({ query }) => {
