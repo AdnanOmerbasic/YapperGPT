@@ -14,9 +14,7 @@ export default function ChatTranscript({
   userAvatar,
   aiAvatar,
 }: ChatTranscriptProps) {
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
-    maxSteps: 5,
-  });
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
 
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +50,7 @@ export default function ChatTranscript({
         ))}
       </div>
 
-      <div ref={endRef} className="flex items-center justify-center pt-4" />
+      <div ref={endRef} className="flex items-center justify-center pt-24" />
 
       <form
         onSubmit={handleSubmit}
