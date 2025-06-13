@@ -62,7 +62,7 @@ export default function ChatTranscript({
 
       <form
         onSubmit={handleSubmit}
-        className="bg-background sticky bottom-0 flex w-full max-w-2xl items-center justify-center pt-4 pb-12">
+        className="bg-background sticky bottom-0 flex w-full max-w-2xl items-center justify-center pb-[100px]">
         <Textarea
           className="border-input bg-background fixed bottom-4 w-full max-w-2xl rounded-lg border p-8 text-sm shadow-sm"
           placeholder="Ask me anything..."
