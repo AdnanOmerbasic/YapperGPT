@@ -1,6 +1,6 @@
 'use client';
 
-import { useChat } from '@ai-sdk/react';
+import { Message, useChat } from '@ai-sdk/react';
 import { useEffect, useRef } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
@@ -8,13 +8,21 @@ import { cn } from '@/lib/utils';
 type ChatTranscriptProps = {
   userAvatar: React.ReactElement;
   aiAvatar: React.ReactElement;
+  id?: string | undefined;
+  initialMessages?: Message[];
 };
 
 export default function ChatTranscript({
   userAvatar,
   aiAvatar,
+  id,
+  initialMessages,
 }: ChatTranscriptProps) {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { messages, input, handleInputChange, handleSubmit } = useChat({
+    id,
+    initialMessages,
+    sendExtraMessageFields: true,
+  });
 
   const endRef = useRef<HTMLDivElement>(null);
 

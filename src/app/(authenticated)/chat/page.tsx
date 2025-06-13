@@ -1,12 +1,10 @@
-import { getAuth } from '@/features/auth/utils/getAuth';
-import ChatTranscript from '@/features/chat/components/chat-transcript';
-import { EmailTagAvatar } from '@/features/chat/components/email-tag-avatar';
+import { redirect } from 'next/navigation';
+import { createChat } from '@/features/chat/actions/create-chat';
 
 export default async function Chat() {
-  const { user } = await getAuth();
+  const id = await createChat();
 
-  const userAvatar = <EmailTagAvatar email={user!.email} role="user" />;
-  const aiAvatar = <EmailTagAvatar role="ai" />;
-
-  return <ChatTranscript userAvatar={userAvatar} aiAvatar={aiAvatar} />;
+  if (id) {
+  }
+  redirect(`/chat/${id}`);
 }

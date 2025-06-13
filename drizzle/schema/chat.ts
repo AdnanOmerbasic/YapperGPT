@@ -1,9 +1,9 @@
-import { pgTable, serial, text, integer, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, timestamp } from 'drizzle-orm/pg-core';
 import { userTable } from './user';
 import type { InferSelectModel } from 'drizzle-orm';
 
 export const conversationTable = pgTable('conversation', {
-  id: serial().primaryKey(),
+  id: text().primaryKey(),
   title: text().notNull(),
   createdAt: timestamp({ mode: 'date', withTimezone: true })
     .defaultNow()
@@ -15,7 +15,7 @@ export const conversationTable = pgTable('conversation', {
 });
 
 export const chatTable = pgTable('chat', {
-  id: serial().primaryKey(),
+  id: text().primaryKey(),
   role: text({ enum: ['user', 'ai'] }).notNull(),
   content: text().notNull(),
   createdAt: timestamp({ mode: 'date', withTimezone: true })
@@ -25,7 +25,7 @@ export const chatTable = pgTable('chat', {
   userId: integer()
     .notNull()
     .references(() => userTable.id, { onDelete: 'cascade' }),
-  conversationId: integer()
+  conversationId: text()
     .notNull()
     .references(() => conversationTable.id, { onDelete: 'cascade' }),
 });

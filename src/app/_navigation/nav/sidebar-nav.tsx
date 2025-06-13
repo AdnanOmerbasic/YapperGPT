@@ -1,4 +1,3 @@
-import { Inbox } from 'lucide-react';
 import Link from 'next/link';
 import {
   Sidebar,
@@ -10,29 +9,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { homePath } from '@/utils/paths';
+import { getAuth } from '@/features/auth/utils/getAuth';
+import { getAllConversationsByTitle } from '@/features/chat/queries/getAllConversationsByTitle';
+import { chatPath, homePath } from '@/utils/paths';
 
-//TODO: Add Conversations to sidebar and remove the items and add settings with dropdown
+export async function SidebarNav() {
+  const { session } = await getAuth();
+  const conversations = await getAllConversationsByTitle(session!.userId);
 
-const items = [
-  {
-    title: 'Conversation Title',
-    url: '#',
-    icon: Inbox,
-  },
-  {
-    title: 'Conversation Title 2',
-    url: '#',
-    icon: Inbox,
-  },
-  {
-    title: 'Conversation Title 3',
-    url: '#',
-    icon: Inbox,
-  },
-];
-
-export function SidebarNav() {
   return (
     <Sidebar>
       <SidebarContent>
@@ -42,12 +26,11 @@ export function SidebarNav() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map(item => (
-                <SidebarMenuItem key={item.title}>
+              {conversations.map((conv, i) => (
+                <SidebarMenuItem key={i}>
                   <SidebarMenuButton asChild>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
+                    <Link href={chatPath(conv.id.toString())}>
+                      <span>{conv.title ?? 'New Conversation'}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

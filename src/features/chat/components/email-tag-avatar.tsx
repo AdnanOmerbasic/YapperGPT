@@ -9,11 +9,20 @@ type EmailTagAvatarProps = {
 };
 
 export const EmailTagAvatar = ({ role, email }: EmailTagAvatarProps) => {
+  if (!email) {
+    return (
+      <div className="pt-8">
+        <Avatar className="flex shrink-0 items-center justify-center bg-sky-600 text-white dark:bg-indigo-500">
+          AI
+        </Avatar>
+      </div>
+    );
+  }
   if (role === 'user') {
     return (
       <div className="flex justify-end">
         <Avatar className="flex shrink-0 items-center justify-center bg-green-500 text-black dark:bg-green-700">
-          {extractEmailTag(email!)}
+          {extractEmailTag(email)}
         </Avatar>
       </div>
     );

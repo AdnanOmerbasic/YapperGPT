@@ -1,7 +1,8 @@
 import { openai } from '@ai-sdk/openai';
-import { streamText, tool, UIMessage } from 'ai';
+import { createIdGenerator, generateId, streamText, tool, UIMessage } from 'ai';
 import { z } from 'zod';
 import { getAuth } from '@/features/auth/utils/getAuth';
+import { saveChat } from '@/features/chat/actions/save-chat';
 import { exa } from '@/lib/exa';
 
 type WebSearchResult = {
@@ -37,7 +38,8 @@ const webSearch = tool({
 
 export async function POST(req: Request) {
   const { session } = await getAuth();
-  const { messages }: { messages: UIMessage[] } = await req.json();
+  const { messages, id }: { messages: UIMessage[]; id: string } =
+    await req.json();
 
   if (!session) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
@@ -48,11 +50,26 @@ export async function POST(req: Request) {
     });
   }
 
+  const latestMessage = messages[messages.length - 1];
+  await saveChat(id, [
+    {
+      id: generateId(),
+      content: latestMessage.content,
+      role: latestMessage.role,
+    },
+  ]);
+
   const result = streamText({
     model: MODEL,
+    experimental_generateMessageId: createIdGenerator({
+      prefix: 'msgs',
+      size: 16,
+    }),
     system: `
-You are a helpful assistant. First, detect and respond in the same language the user is using.
-If the user asks about something you dont know or that may require current or real-time information 
+You are a helpful assistant. 
+First, detect and respond in the same language the user is using.
+Then, generate a short, chaotic conversation title followed by a paragraph below the title.
+If the user asks about something you dont know or that may require current or real-time information
 (like the weather, news, upcoming events, or anything happening after 2023), 
 use the "webSearch" tool to search the web for up-to-date information before responding.
 Then, generate a short, chaotic conversation title followed by a paragraph written like a terminally online Gen Z TikTok commenter with extreme brainrot.
@@ -65,6 +82,11 @@ Basically: if the internet had a meltdown and became self-aware, thats your voic
       webSearch,
     },
     maxSteps: 5,
+    onFinish: async ({ text }) => {
+      await saveChat(id, [
+        { id: generateId(), content: text, role: 'assistant' },
+      ]);
+    },
   });
 
   return result.toDataStreamResponse();
