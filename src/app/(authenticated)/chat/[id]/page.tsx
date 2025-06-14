@@ -16,7 +16,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
     return <div>Conversation not found</div>;
   }
 
-  const userAvatar = <EmailTagAvatar email={user?.email} role="user" />;
+  const userAvatar = <EmailTagAvatar email={user!.email} role="user" />;
   const aiAvatar = <EmailTagAvatar role="ai" />;
 
   return (

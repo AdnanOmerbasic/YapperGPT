@@ -8,13 +8,13 @@ export const FeatureSection = () => {
           <Card className="border-primary bg-muted/20 max-w-lg border-l-4 transition-all duration-300 ease-in-out hover:scale-105">
             <CardHeader className="text-center">
               <h3 className="text-2xl font-semibold">
-                Unified Chat Experience
+                Smooth and Smart Chat Experience
               </h3>
             </CardHeader>
             <CardContent className="text-muted-foreground text-center">
               <p className="text-lg">
-                Seamlessly switch between ChatGPT and Claude in a single
-                interface — no extra setup or browser tabs required.
+                Engage with powerful AI in a simple, intuitive interface — no
+                extra setup or complexity required.
               </p>
             </CardContent>
           </Card>
@@ -22,13 +22,13 @@ export const FeatureSection = () => {
           <Card className="border-primary bg-muted/20 max-w-lg border-r-4 transition-all duration-300 ease-in-out hover:scale-105">
             <CardHeader className="text-center">
               <h3 className="text-foreground text-2xl font-semibold">
-                Powerful AI, One Platform
+                Save Conversations Effortlessly
               </h3>
             </CardHeader>
             <CardContent className="text-muted-foreground text-center">
               <p className="text-lg">
-                Use the best of OpenAI and Anthropic models in one place. Save
-                conversations, compare responses, and boost productivity.
+                Access your previous chats anytime, stay organized, and keep
+                your ideas flowing — all in one place.
               </p>
             </CardContent>
           </Card>

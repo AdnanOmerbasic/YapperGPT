@@ -2,6 +2,7 @@
 
 import { Message, useChat } from '@ai-sdk/react';
 import { useEffect, useRef } from 'react';
+import { Form } from '@/components/form/form';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
@@ -60,7 +61,7 @@ export default function ChatTranscript({
 
       <div ref={endRef} className="flex items-center justify-center pt-24" />
 
-      <form
+      <Form
         onSubmit={handleSubmit}
         className="bg-background sticky bottom-0 flex w-full max-w-2xl items-center justify-center pb-[100px]">
         <Textarea
@@ -75,7 +76,7 @@ export default function ChatTranscript({
             }
           }}
         />
-      </form>
+      </Form>
     </div>
   );
 }
