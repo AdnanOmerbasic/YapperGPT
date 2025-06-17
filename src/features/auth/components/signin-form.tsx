@@ -7,8 +7,10 @@ import { SubmitButton } from '@/components/submit-button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import { signUpPath } from '@/utils/paths';
 import { signInAction } from '../actions/sign-in';
+import { GmailSignIn } from './gmail-signin';
 
 export const SignInForm = () => {
   const { result, execute } = useStateAction(signInAction, {});
@@ -52,6 +54,8 @@ export const SignInForm = () => {
               <p className="text-sm text-red-500">{result.data.global}</p>
             )}
           </Form>
+          <Separator className="my-10" />
+          <GmailSignIn />
         </CardContent>
       </Card>
     </div>

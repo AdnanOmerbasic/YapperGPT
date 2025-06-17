@@ -1,17 +1,3 @@
-// 'use server';
-
-// import { z } from 'zod';
-// import { actionClient } from '@/lib/safe-action';
-
-// const signInSchmea = z.object({
-//   email: z.string().email().max(191),
-//   password: z.string().min(8).max(191),
-// });
-
-// export const signInAction = actionClient.schema(signInSchmea).action(async({parsedInput: { email, password }}) => {
-
-// })
-
 'use server';
 import { eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';

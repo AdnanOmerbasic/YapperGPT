@@ -5,6 +5,7 @@ export const userTable = pgTable('user', {
   id: serial().primaryKey(),
   email: text().notNull().unique(),
   passwordHash: text().notNull(),
+  googleId: text().unique(),
   createdAt: timestamp({ mode: 'date', withTimezone: true })
     .defaultNow()
     .notNull(),
