@@ -5,16 +5,22 @@ import { db } from '@/lib/drizzle';
 import { sessionTable, userTable } from '../../../../drizzle/schema';
 import type { Session, User } from '../../../../drizzle/schema';
 
-const SESSION_DURATION = 1000 * 60 * 60 * 24 * 7; // 1 days
+const SESSION_DURATION = 1000 * 60 * 60 * 24 * 7; // 7 days
 const SESSION_REFRESH_DURATION = 1000 * 60 * 60 * 24 * 14; // 14 days
 const SESSION_REMEMBER_DURATION = 1000 * 60 * 60 * 24 * 30; // 30 days
 
-export async function createSession(token: string, userId: number) {
+export async function createSession(
+  token: string,
+  userId: number,
+  rememberMe?: boolean
+) {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session = {
     id: sessionId,
     userId,
-    expiresAt: new Date(Date.now() + SESSION_DURATION),
+    expiresAt: new Date(
+      Date.now() + (rememberMe ? SESSION_REMEMBER_DURATION : SESSION_DURATION)
+    ),
   };
   await db.insert(sessionTable).values(session);
   return session;
@@ -38,16 +44,12 @@ export async function validateSession(token: string, rememberMe?: boolean) {
     return { session: null, user: null };
   }
 
-  if (Date.now() >= session.expiresAt.getTime() - SESSION_DURATION) {
+  if (
+    Date.now() >=
+    session.expiresAt.getTime() -
+      (rememberMe ? SESSION_REMEMBER_DURATION : SESSION_DURATION)
+  ) {
     session.expiresAt = new Date(Date.now() + SESSION_REFRESH_DURATION);
-    await db
-      .update(sessionTable)
-      .set({ expiresAt: session.expiresAt })
-      .where(eq(sessionTable.id, sessionId));
-  }
-
-  if (rememberMe) {
-    session.expiresAt = new Date(Date.now() + SESSION_REMEMBER_DURATION);
     await db
       .update(sessionTable)
       .set({ expiresAt: session.expiresAt })

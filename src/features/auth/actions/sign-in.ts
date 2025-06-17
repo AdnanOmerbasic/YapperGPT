@@ -15,6 +15,7 @@ import { setSessionCookie } from '../utils/session-cookies';
 const signInSchmea = zfd.formData({
   email: zfd.text(z.string().email()),
   password: zfd.text(z.string().max(191)),
+  rememberMe: zfd.checkbox().optional(),
 });
 
 export const signInAction = actionClient
@@ -25,9 +26,9 @@ export const signInAction = actionClient
   })
   .stateAction<{
     validationErrors?: Partial<Record<'email' | 'password', string[]>>;
-    values?: { email?: string };
+    values?: { email?: string; rememberMe?: boolean };
     global?: string;
-  }>(async ({ parsedInput: { email, password } }) => {
+  }>(async ({ parsedInput: { email, password, rememberMe } }) => {
     try {
       const [findUser] = await db
         .select()
@@ -54,7 +55,12 @@ export const signInAction = actionClient
         };
       }
       const sessionToken = generateSessionToken();
-      const session = await createSession(sessionToken, findUser.id);
+      const session = await createSession(
+        sessionToken,
+        findUser.id,
+        rememberMe
+      );
+      console.log('Session created:', session);
       await setSessionCookie(sessionToken, session.expiresAt);
     } catch {
       return {

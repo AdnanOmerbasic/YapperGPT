@@ -4,7 +4,14 @@ import { useStateAction } from 'next-safe-action/stateful-hooks';
 import { FieldError } from '@/components/form/field-error';
 import { Form } from '@/components/form/form';
 import { SubmitButton } from '@/components/submit-button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
@@ -38,16 +45,14 @@ export const SignInForm = () => {
               <Input name="password" type="password" />
               <FieldError field="email" result={result} />
               <FieldError field="password" result={result} />
-            </div>
-            <div>
-              <p className="text-muted-foreground text-center text-sm">
-                Don&apos;t have an account?{' '}
-                <Link
-                  href={signUpPath()}
-                  className="text-blue-500 hover:underline">
-                  Sign up
-                </Link>
-              </p>
+              <div className="mt-2 flex items-center justify-between">
+                <Label htmlFor="rememberMe">Remember me?</Label>
+                <Checkbox
+                  aria-label="Remember me"
+                  checked={result.data?.values?.rememberMe}
+                  name="rememberMe"
+                />
+              </div>
             </div>
             <SubmitButton>Sign in</SubmitButton>
             {result.data?.global && (
@@ -57,6 +62,18 @@ export const SignInForm = () => {
           <Separator className="my-10" />
           <GmailSignIn />
         </CardContent>
+        <CardFooter className="mt-4">
+          <div className="w-full">
+            <p className="text-muted-foreground mt-2 text-center text-sm">
+              Don&apos;t have an account?{' '}
+              <Link
+                href={signUpPath()}
+                className="text-blue-500 hover:underline">
+                Sign up
+              </Link>
+            </p>
+          </div>
+        </CardFooter>
       </Card>
     </div>
   );
