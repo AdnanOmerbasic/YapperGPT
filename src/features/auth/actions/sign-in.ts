@@ -60,7 +60,6 @@ export const signInAction = actionClient
         findUser.id,
         rememberMe
       );
-      console.log('Session created:', session);
       await setSessionCookie(sessionToken, session.expiresAt);
     } catch {
       return {
