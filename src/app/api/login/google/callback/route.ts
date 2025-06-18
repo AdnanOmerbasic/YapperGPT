@@ -43,10 +43,10 @@ export async function GET(request: Request): Promise<Response> {
   }
   const claims = decodeIdToken(tokens.idToken()) as {
     sub: string;
-    name: string;
+    email: string;
   };
   const googleUserId = claims.sub;
-  const username = claims.name;
+  const email = claims.email;
 
   const existingUser = await getUserFromGoogleId(googleUserId);
 
@@ -62,7 +62,13 @@ export async function GET(request: Request): Promise<Response> {
     });
   }
 
-  const user = await createGoogleUser(googleUserId, username);
+  console.log(
+    'Creating new Google user with ID:',
+    googleUserId,
+    'and email:',
+    email
+  );
+  const user = await createGoogleUser(googleUserId, email);
 
   const sessionToken = generateSessionToken();
   const session = await createSession(sessionToken, user.id);

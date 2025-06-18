@@ -57,14 +57,16 @@ export const signUpAction = actionClient
       }
       const passwordHash = await hashPassword(password);
 
+      const normalizedEmail = email.toLowerCase();
       const [newUser] = await db
         .insert(userTable)
         .values({
-          email,
+          email: normalizedEmail,
           passwordHash,
         })
         .returning();
 
+      //TODO: Send Mail
       const token = generateSessionToken();
       const session = await createSession(token, newUser.id);
       await setSessionCookie(token, session.expiresAt);
