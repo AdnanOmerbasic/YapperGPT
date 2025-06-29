@@ -2,7 +2,7 @@
 import { generateId, Message } from 'ai';
 import { eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
-import { getAuth } from '@/features/auth/utils/getAuth';
+import { getAuth } from '@/features/auth/queries/getAuth';
 import { db } from '@/lib/drizzle';
 import { chatTable, conversationTable } from '../../../../drizzle/schema';
 

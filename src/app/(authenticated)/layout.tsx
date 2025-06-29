@@ -1,5 +1,5 @@
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { getAuthOrRedirect } from '@/features/auth/utils/getAuthOrRedirect';
+import { getAuthOrRedirect } from '@/features/auth/queries/getAuthOrRedirect';
 import { SidebarNav } from '../_navigation/nav/sidebar-nav';
 
 export default async function AuthenticatedLayout({

@@ -4,13 +4,14 @@ import { useFormStatus } from 'react-dom';
 import { Button } from './ui/button';
 
 type SubmitButtonProps = {
-  children: React.ReactNode;
+  label: string;
+  className?: string;
 };
-export const SubmitButton = ({ children }: SubmitButtonProps) => {
+export const SubmitButton = ({ label, className }: SubmitButtonProps) => {
   const { pending } = useFormStatus();
   return (
-    <Button disabled={pending} type="submit">
-      {pending ? <LucideLoaderCircle className="animate-spin" /> : children}
+    <Button disabled={pending} type="submit" className={className}>
+      {pending ? <LucideLoaderCircle className="animate-spin" /> : label}
     </Button>
   );
 };

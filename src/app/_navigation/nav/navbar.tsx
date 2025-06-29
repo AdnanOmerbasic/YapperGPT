@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ThemeSwitcher } from '@/app/_providers/theme-switcher';
 import { Button } from '@/components/ui/button';
 import { SignOut } from '@/features/auth/components/signout';
-import { getAuth } from '@/features/auth/utils/getAuth';
+import { getAuth } from '@/features/auth/queries/getAuth';
 import { homePath, signInPath } from '@/utils/paths';
 
 export const Navbar = async () => {

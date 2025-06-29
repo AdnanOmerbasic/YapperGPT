@@ -1,6 +1,6 @@
 'use server';
 import { redirect } from 'next/navigation';
-import { getAuth } from '../utils/getAuth';
+import { getAuth } from '../queries/getAuth';
 import { invalidateSession } from '../utils/session';
 import { deleteSessionCookie } from '../utils/session-cookies';
 

@@ -1,4 +1,4 @@
-import { getAuth } from '@/features/auth/utils/getAuth';
+import { getAuth } from '@/features/auth/queries/getAuth';
 import ChatTranscript from '@/features/chat/components/chat-transcript';
 import { EmailTagAvatar } from '@/features/chat/components/email-tag-avatar';
 import { loadConversation } from '@/features/chat/queries/loadConversation';

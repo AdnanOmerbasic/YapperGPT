@@ -9,7 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { getAuth } from '@/features/auth/utils/getAuth';
+import { getAuth } from '@/features/auth/queries/getAuth';
 import { getAllConversationsByTitle } from '@/features/chat/queries/getAllConversationsByTitle';
 import { chatPath, homePath } from '@/utils/paths';
 

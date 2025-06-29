@@ -1,16 +1,15 @@
 'use server';
 
 import { eq } from 'drizzle-orm';
-import { redirect } from 'next/navigation';
 import { flattenValidationErrors } from 'next-safe-action';
 import { z } from 'zod';
 import { zfd } from 'zod-form-data';
-import { createSession } from '@/features/auth/utils/session';
-import { setSessionCookie } from '@/features/auth/utils/session-cookies';
 import { db } from '@/lib/drizzle';
 import { hashPassword } from '@/lib/hash';
+import { inngest } from '@/lib/inngest';
+import { redis } from '@/lib/redis';
 import { actionClient } from '@/lib/safe-action';
-import generateSessionToken from '@/utils/crypto';
+import { generateRandomOTP } from '@/utils/crypto';
 import { userTable } from '../../../../drizzle/schema';
 
 const signUpSchema = zfd.formData({
@@ -29,7 +28,7 @@ export const signUpAction = actionClient
     validationErrors?: Partial<
       Record<'email' | 'password' | 'confirmPassword', string[]>
     >;
-    values?: { email?: string };
+    email?: string;
     global?: string;
   }>(async ({ parsedInput: { email, password, confirmPassword } }) => {
     try {
@@ -57,22 +56,27 @@ export const signUpAction = actionClient
       }
       const passwordHash = await hashPassword(password);
 
-      const normalizedEmail = email.toLowerCase();
-      const [newUser] = await db
-        .insert(userTable)
-        .values({
-          email: normalizedEmail,
-          passwordHash,
-        })
-        .returning();
+      const normalizedEmail = email.toLowerCase().trim();
+      const code = generateRandomOTP();
 
-      //TODO: Send Mail
-      const token = generateSessionToken();
-      const session = await createSession(token, newUser.id);
-      await setSessionCookie(token, session.expiresAt);
+      await redis.hset(`signup:${normalizedEmail}`, {
+        email: normalizedEmail,
+        password: passwordHash,
+        otp: code,
+      });
+
+      await redis.expire(`signup:${normalizedEmail}`, 15 * 60); // 15 minutes
+
+      inngest.send({
+        name: 'app/email.verification',
+        data: {
+          email: normalizedEmail,
+          code,
+        },
+      });
+
+      return { email: normalizedEmail };
     } catch {
       return { global: 'Something went wrong, please try again' };
     }
-
-    redirect('/chat');
   });

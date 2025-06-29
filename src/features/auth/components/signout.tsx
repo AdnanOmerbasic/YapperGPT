@@ -8,7 +8,7 @@ export const SignOut = () => {
 
   return (
     <form action={execute}>
-      <SubmitButton>Sign Out</SubmitButton>
+      <SubmitButton label="Sign Out" />
     </form>
   );
 };

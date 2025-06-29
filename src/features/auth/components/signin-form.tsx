@@ -54,7 +54,7 @@ export const SignInForm = () => {
                 />
               </div>
             </div>
-            <SubmitButton>Sign in</SubmitButton>
+            <SubmitButton label="Sign in" />
             {result.data?.global && (
               <p className="text-sm text-red-500">{result.data.global}</p>
             )}

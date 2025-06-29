@@ -1,7 +1,7 @@
 'use server';
 import { generateId } from 'ai';
 import { redirect } from 'next/navigation';
-import { getAuth } from '@/features/auth/utils/getAuth';
+import { getAuth } from '@/features/auth/queries/getAuth';
 import { db } from '@/lib/drizzle';
 import { conversationTable } from '../../../../drizzle/schema';
 

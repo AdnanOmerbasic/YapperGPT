@@ -1,7 +1,7 @@
 import { openai } from '@ai-sdk/openai';
 import { createIdGenerator, generateId, streamText, tool, UIMessage } from 'ai';
 import { z } from 'zod';
-import { getAuth } from '@/features/auth/utils/getAuth';
+import { getAuth } from '@/features/auth/queries/getAuth';
 import { saveChat } from '@/features/chat/actions/save-chat';
 import { exa } from '@/lib/exa';
 
