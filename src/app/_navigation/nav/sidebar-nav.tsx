@@ -10,6 +10,7 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { getAuth } from '@/features/auth/queries/getAuth';
+import { CreateChatButton } from '@/features/chat/components/create-chat-button';
 import { getAllConversationsByTitle } from '@/features/chat/queries/getAllConversationsByTitle';
 import { chatPath, homePath } from '@/utils/paths';
 
@@ -26,6 +27,13 @@ export async function SidebarNav() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              <SidebarMenuItem className="flex items-center justify-end">
+                <SidebarMenuButton
+                  asChild
+                  className="flex items-center justify-end">
+                  <CreateChatButton />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               {conversations.map((conv, i) => (
                 <SidebarMenuItem key={i}>
                   <SidebarMenuButton asChild>

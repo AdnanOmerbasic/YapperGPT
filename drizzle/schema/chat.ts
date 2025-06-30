@@ -8,7 +8,10 @@ export const conversationTable = pgTable('conversation', {
   createdAt: timestamp({ mode: 'date', withTimezone: true })
     .defaultNow()
     .notNull(),
-  updatedAt: timestamp({ mode: 'date', withTimezone: true }),
+  updatedAt: timestamp({ mode: 'date', withTimezone: true })
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
   userId: integer()
     .notNull()
     .references(() => userTable.id, { onDelete: 'cascade' }),

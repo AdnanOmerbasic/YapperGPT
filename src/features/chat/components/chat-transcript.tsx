@@ -1,10 +1,12 @@
 'use client';
 
 import { Message, useChat } from '@ai-sdk/react';
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { Form } from '@/components/form/form';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
+import { chatListPath } from '@/utils/paths';
 
 type ChatTranscriptProps = {
   userAvatar: React.ReactElement;
@@ -24,6 +26,8 @@ export default function ChatTranscript({
     initialMessages,
     sendExtraMessageFields: true,
   });
+
+  const pathname = usePathname();
 
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -64,18 +68,20 @@ export default function ChatTranscript({
       <Form
         onSubmit={handleSubmit}
         className="bg-background sticky bottom-0 flex w-full max-w-2xl items-center justify-center pb-[100px]">
-        <Textarea
-          className="border-input bg-background fixed bottom-4 w-full max-w-2xl rounded-lg border p-8 text-sm shadow-sm"
-          placeholder="Ask me anything..."
-          value={input}
-          onChange={handleInputChange}
-          onKeyDown={e => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              handleSubmit(e);
-            }
-          }}
-        />
+        {pathname !== chatListPath() && (
+          <Textarea
+            className="border-input bg-background fixed bottom-4 w-full max-w-2xl rounded-lg border p-8 text-sm shadow-sm"
+            placeholder="Ask me anything..."
+            value={input}
+            onChange={handleInputChange}
+            onKeyDown={e => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSubmit(e);
+              }
+            }}
+          />
+        )}
       </Form>
     </div>
   );

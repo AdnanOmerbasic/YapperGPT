@@ -9,8 +9,9 @@ export const getAllConversationsByTitle = async (userId: number) => {
       id: conversationTable.id,
       title: conversationTable.title,
       createdAt: conversationTable.createdAt,
+      updatedAt: conversationTable.updatedAt,
     })
     .from(conversationTable)
     .where(eq(conversationTable.userId, userId))
-    .orderBy(desc(conversationTable.createdAt));
+    .orderBy(desc(conversationTable.updatedAt));
 };
