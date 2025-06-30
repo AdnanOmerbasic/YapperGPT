@@ -2,7 +2,8 @@ import { Google } from 'arctic';
 
 const redirectURI =
   process.env.NODE_ENV === 'production'
-    ? process.env.GOOGLE_REDIRECT_URI_PROD
+    ? (process.env.GOOGLE_REDIRECT_URI_PROD ??
+      process.env.GOOGLE_REDIRECT_VERCEL_URL)
     : process.env.GOOGLE_REDIRECT_URI_DEV;
 if (
   !redirectURI ||
