@@ -67,7 +67,7 @@ export const signUpAction = actionClient
 
       await redis.expire(`signup:${normalizedEmail}`, 15 * 60); // 15 minutes
 
-      inngest.send({
+      await inngest.send({
         name: 'app/email.verification',
         data: {
           email: normalizedEmail,
