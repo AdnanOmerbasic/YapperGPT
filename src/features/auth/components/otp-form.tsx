@@ -1,4 +1,6 @@
+'use client';
 import { LucideXCircle } from 'lucide-react';
+import { useStateAction } from 'next-safe-action/stateful-hooks';
 import { useEffect, useState } from 'react';
 import { FieldError } from '@/components/form/field-error';
 import { Form } from '@/components/form/form';
@@ -11,23 +13,17 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from '@/components/ui/input-otp';
+import { confirmSignUpAction } from '../actions/confirm-sign-up';
 
 type OTPFormProps = {
-  confirmExecute: (input: FormData | { otp: string }) => void;
-  confirmResult: {
-    validationErrors?: Partial<Record<'otp', string[] | undefined>> | undefined;
-  };
   setShowOtp: (show: boolean) => void;
   isOpen: boolean;
   email: string;
 };
-export const OTPForm = ({
-  isOpen,
-  confirmExecute,
-  confirmResult,
-  setShowOtp,
-  email,
-}: OTPFormProps) => {
+export const OTPForm = ({ isOpen, setShowOtp, email }: OTPFormProps) => {
+  const { execute: confirmExecute, result: confirmResult } = useStateAction(
+    confirmSignUpAction.bind(null, email)
+  );
   const [timeLeft, setTimeLeft] = useState(900);
 
   useEffect(() => {

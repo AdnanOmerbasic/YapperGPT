@@ -10,7 +10,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { signInPath } from '@/utils/paths';
-import { confirmSignUpAction } from '../actions/confirm-sign-up';
 import { signUpAction } from '../actions/sign-up';
 import { OTPForm } from './otp-form';
 
@@ -21,9 +20,6 @@ export const SignUpForm = () => {
   const { execute: signUpExecute, result: signUpResult } = useStateAction(
     signUpAction,
     {}
-  );
-  const { execute: confirmExecute, result: confirmResult } = useStateAction(
-    confirmSignUpAction.bind(null, email)
   );
 
   useEffect(() => {
@@ -81,13 +77,7 @@ export const SignUpForm = () => {
           </CardContent>
         </Card>
       </div>
-      <OTPForm
-        confirmExecute={confirmExecute}
-        confirmResult={confirmResult}
-        setShowOtp={setShowOtp}
-        isOpen={showOtp}
-        email={email}
-      />
+      <OTPForm setShowOtp={setShowOtp} isOpen={showOtp} email={email} />
     </>
   );
 };

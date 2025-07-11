@@ -32,12 +32,16 @@ export const confirmSignUpAction = actionClient
       const data =
         (await redis.hgetall(`signup:${email.toLowerCase().trim()}`)) || {};
 
-      if (typeof data.email !== 'string' || typeof data.password !== 'string') {
+      if (
+        typeof data.email !== 'string' ||
+        typeof data.password !== 'string' ||
+        typeof data.otp !== 'string'
+      ) {
         return {
           global: 'Invalid or expired signup session',
         };
       }
-      if (otp !== data.otp) {
+      if (otp.toUpperCase().trim() !== data.otp.toUpperCase().trim()) {
         return {
           validationErrors: {
             otp: ['Invalid OTP'],
